@@ -1,10 +1,14 @@
-import { Button } from "@/components/ui/button";
+import { RouterProvider } from "react-router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { router } from "@/router";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <div className="p-8">
-      <Button>Test shadcn</Button>
-    </div>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   );
 }
 

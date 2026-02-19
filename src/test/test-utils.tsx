@@ -37,8 +37,8 @@ export function renderWithProviders(
   options?: Omit<RenderOptions, "wrapper">,
   userEventSetupOptions?: Options,
 ): RenderResultWithUserEvent {
-  const user = userEvent.setup(userEventSetupOptions)
-  return { user, ...render(ui, { wrapper: createWrapper(), ...options })};
+  const user = userEvent.setup(userEventSetupOptions);
+  return { user, ...render(ui, { wrapper: createWrapper(), ...options }) };
 }
 
 export { screen, waitFor, within } from "@testing-library/react";

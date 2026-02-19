@@ -4,7 +4,7 @@ import { PlaceholderPage } from "./PlaceholderPage";
 
 describe("App", () => {
   it("renders without crashing", () => {
-    renderWithProviders(<PlaceholderPage/>);
+    renderWithProviders(<PlaceholderPage />);
     expect(screen.getByText("Payments list placeholder")).toBeInTheDocument();
   });
 });

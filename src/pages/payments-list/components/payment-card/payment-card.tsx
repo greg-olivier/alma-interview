@@ -24,7 +24,7 @@ export function PaymentCard({ payment, onClick }: PaymentCardProps) {
     >
       {isLate && (
         <div className="flex items-center gap-1.5 bg-red-50 px-4 py-1.5 text-xs font-semibold text-red-600">
-          <span>⚠</span> {t("payment.card.lateBanner")}
+          <span>⚠</span> {t("payments.list.card.lateBanner")}
         </div>
       )}
 
@@ -47,7 +47,9 @@ export function PaymentCard({ payment, onClick }: PaymentCardProps) {
                 className="text-[11px] font-semibold uppercase tracking-wide"
                 style={{ color: isLate ? "#EF4444" : "#B0B3BA" }}
               >
-                {isLate ? t("payment.card.dueDateLabel") : t("payment.card.nextPayment")}
+                {isLate
+                  ? t("payments.list.card.dueDateLabel")
+                  : t("payments.list.card.nextPayment")}
               </div>
               <div
                 className="text-base font-bold leading-tight"
@@ -59,14 +61,14 @@ export function PaymentCard({ payment, onClick }: PaymentCardProps) {
                 className="mt-0.5 text-xs font-medium"
                 style={{ color: isLate ? "#EF4444" : "#9CA3AF" }}
               >
-                {`${t("payment.card.datePrefix")} ${payment.nextInstallmentDate}`}
+                {`${t("payments.list.card.datePrefix")} ${payment.nextInstallmentDate}`}
               </div>
             </div>
           )}
 
           {isCompleted && (
             <div className="shrink-0 text-sm font-semibold text-green-600">
-              {t("payment.card.completed")}
+              {t("payments.list.card.completed")}
             </div>
           )}
         </div>

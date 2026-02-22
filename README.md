@@ -1,73 +1,55 @@
-# React + TypeScript + Vite
+# Alma Payments
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Portail client permettant de consulter et suivre ses paiements en plusieurs fois.
 
-Currently, two official plugins are available:
+## Démarrage
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
+```bash
+npm install
+cp .env.example .env
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+| Commande | Description |
+|----------|-------------|
+| `npm run dev` | Serveur de développement |
+| `npm run test:run` | Tests unitaires et intégration |
+| `npm run storybook` | Documentation visuelle des composants |
+| `npm run lint` | Vérification ESLint + Prettier |
+| `npx tsc --noEmit` | Vérification des types |
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+## Stack technique
 
-export default defineConfig([
-  globalIgnores(["dist"]),
-  {
-    files: ["**/*.{ts,tsx}"],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs["recommended-typescript"],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-]);
-```
+| Outil | Justification |
+|-------|---------------|
+| **Vite + React + TypeScript strict** | Standard moderne, `noUncheckedIndexedAccess` activé pour un maximum de sûreté |
+| **Tailwind + shadcn/ui** | Composants copiés dans le projet et modifiables, pas de dépendance externe à maintenir |
+| **React Router** | Navigation pleine page, pas de layout master-detail |
+| **TanStack Query** | Cache, états de chargement/erreur, pattern `queryOptions` pour découpler la config des queries de leur consommation |
+| **Vitest + Testing Library + MSW** | Tests orientés comportement utilisateur, mocks réseau réalistes colocalisés avec leur domaine |
+| **Storybook** | Développement et review des composants en isolation |
+
+## Qualité & DX
+
+**Husky + lint-staged** : chaque commit déclenche automatiquement ESLint, Prettier et Vitest (sur les fichiers de test) uniquement sur les fichiers stagés.
+
+**Commitlint** : les messages de commit suivent la convention [Conventional Commits](https://www.conventionalcommits.org/), garantissant un historique lisible et exploitable.
+
+## Choix de conception
+
+**Colocation.** Chaque fichier vit au plus proche de son consommateur. Les composants spécifiques à une page vivent dans son dossier, pas dans un dossier global. Seuls les composants partagés entre plusieurs pages vivent dans `src/components/`.
+
+**Découplage API / UI.** Chaque composant définit sa propre interface de données. Un mapper pur fait la transformation depuis les types API. Si l'API change, seul le mapper est impacté.
+
+**i18n-ready.** Les textes sont centralisés derrière une fonction `t()` typée dont l'API est compatible avec i18next. La migration se ferait en remplaçant l'import.
+
+**Configuration par pays.** Un mapping centralisé `country_of_service` → locale, timezone, currency. Quand l'info n'est pas disponible (endpoint liste), fallback sur `navigator.language` et `Intl.DateTimeFormat().resolvedOptions().timeZone`.
+
+**Gestion des erreurs.** ErrorBoundary pour les crashs de rendu, ErrorPage pour les erreurs de routing et 404, états `isError` de TanStack Query pour les erreurs API.
+
+## Améliorations possibles
+
+- **Checkpoints de progression** — remplacer la barre par des points visuels par échéance, sans changer l'interface du composant
+- **Logger d'erreurs** — centraliser les erreurs vers un service type Sentry
+- **Virtualisation** — `@tanstack/react-virtual` pour les longues listes (non pertinent avec 3 paiements dans le mock)
+- **Dark mode** — supporté nativement par shadcn, nécessite un toggle de thème

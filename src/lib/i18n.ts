@@ -5,6 +5,12 @@ const translations = {
   "payment.card.datePrefix": "le",
   "payment.card.completed": "✓ Payé",
   "payment.progressBar.ariaLabel": "{{paid}} échéances payées sur {{total}}",
+  "payments.list.empty.active.title": "Aucun paiement en cours",
+  "payments.list.empty.active.description": "Vous n'avez aucun échéancier actif pour le moment.",
+  "payments.list.empty.completed.title": "Aucun paiement terminé",
+  "payments.list.empty.completed.description": "Vos paiements terminés apparaîtront ici.",
+  "payments.list.error.message": "Impossible de charger vos paiements.",
+  "payments.list.error.retry": "Réessayer",
 } as const;
 
 type TranslationKey = keyof typeof translations;

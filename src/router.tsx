@@ -1,9 +1,15 @@
 import { createBrowserRouter } from "react-router";
 import { PaymentsList } from "@/pages/payments-list";
+import { ErrorPage } from "./pages/error";
 
 export const router = createBrowserRouter([
   {
-    path: "/",
-    element: <PaymentsList />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: "/",
+        element: <PaymentsList />,
+      },
+    ],
   },
 ]);

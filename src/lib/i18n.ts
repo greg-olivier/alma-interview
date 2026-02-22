@@ -1,4 +1,7 @@
 const translations = {
+  "error.generic.title": "Une erreur est survenue",
+  "error.generic.description": "Veuillez réessayer ultérieurement.",
+  "error.backToHome": "Retour à mes paiements",
   "payment.progressBar.ariaLabel": "{{paid}} échéances payées sur {{total}}",
   "payments.list.card.lateBanner": "Paiement en retard",
   "payments.list.card.nextPayment": "Prochain paiement",

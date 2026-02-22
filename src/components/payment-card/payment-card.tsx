@@ -1,6 +1,7 @@
 import type { PaymentCardData } from "./payment-card.types";
 import { MerchantLogo } from "@/components/merchant-logo";
 import { PaymentProgressBar } from "@/components/payment-progress-bar";
+import { t } from "@/lib/i18n";
 
 interface PaymentCardProps {
   payment: PaymentCardData;
@@ -23,7 +24,7 @@ export function PaymentCard({ payment, onClick }: PaymentCardProps) {
     >
       {isLate && (
         <div className="flex items-center gap-1.5 bg-red-50 px-4 py-1.5 text-xs font-semibold text-red-600">
-          <span>⚠</span> Paiement en retard
+          <span>⚠</span> {t("payment.card.lateBanner")}
         </div>
       )}
 
@@ -46,7 +47,7 @@ export function PaymentCard({ payment, onClick }: PaymentCardProps) {
                 className="text-[11px] font-semibold uppercase tracking-wide"
                 style={{ color: isLate ? "#EF4444" : "#B0B3BA" }}
               >
-                {isLate ? "Échéance due" : "Prochain paiement"}
+                {isLate ? t("payment.card.dueDateLabel") : t("payment.card.nextPayment")}
               </div>
               <div
                 className="text-base font-bold leading-tight"
@@ -58,13 +59,15 @@ export function PaymentCard({ payment, onClick }: PaymentCardProps) {
                 className="mt-0.5 text-xs font-medium"
                 style={{ color: isLate ? "#EF4444" : "#9CA3AF" }}
               >
-                le {payment.nextInstallmentDate}
+                {`${t("payment.card.datePrefix")} ${payment.nextInstallmentDate}`}
               </div>
             </div>
           )}
 
           {isCompleted && (
-            <div className="shrink-0 text-sm font-semibold text-green-600">✓ Payé</div>
+            <div className="shrink-0 text-sm font-semibold text-green-600">
+              {t("payment.card.completed")}
+            </div>
           )}
         </div>
 

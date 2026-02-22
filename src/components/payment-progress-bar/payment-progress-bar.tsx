@@ -1,3 +1,5 @@
+import { t } from "@/lib/i18n";
+
 interface PaymentProgressBarProps {
   paidCount: number;
   totalCount: number;
@@ -23,7 +25,7 @@ export function PaymentProgressBar({ paidCount, totalCount }: PaymentProgressBar
           aria-valuenow={paidCount}
           aria-valuemin={0}
           aria-valuemax={totalCount}
-          aria-label={`${paidCount} échéances payées sur ${totalCount}`}
+          aria-label={t("payment.progressBar.ariaLabel", { paid: paidCount, total: totalCount })}
         />
       </div>
       <span className="text-xs font-medium text-muted-foreground">

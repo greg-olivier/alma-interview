@@ -1,9 +1,9 @@
 import { createBrowserRouter } from "react-router";
-import { PlaceholderPage } from "./pages/PlaceholderPage";
+import { PaymentsList } from "@/pages/payments-list";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <PlaceholderPage />,
+    element: <PaymentsList />,
   },
 ]);

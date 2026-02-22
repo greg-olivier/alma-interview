@@ -11,6 +11,10 @@ const translations = {
   "payments.list.empty.completed.description": "Vos paiements terminés apparaîtront ici.",
   "payments.list.error.message": "Impossible de charger vos paiements.",
   "payments.list.error.retry": "Réessayer",
+  "payments.list.title": "Mes paiements",
+  "payments.list.tabs.active": "En cours",
+  "payments.list.tabs.completed": "Terminés",
+  "payments.list.totalRemaining": "Montant restant à payer",
 } as const;
 
 type TranslationKey = keyof typeof translations;

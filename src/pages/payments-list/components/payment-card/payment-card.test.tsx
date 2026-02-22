@@ -1,9 +1,8 @@
 import { describe, it, expect, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import type { PaymentSummary } from "@/api/types";
+import { renderWithProviders } from "@/test/test-utils";
 import { PaymentCard } from "./payment-card";
 import { toPaymentCardData } from "./payment-card.mapper";
-import type { PaymentSummary } from "@/api/types";
 
 const makeInstallment = (overrides = {}) => ({
   id: "i1",
@@ -97,44 +96,58 @@ describe("toPaymentCardData", () => {
 
 describe("PaymentCard", () => {
   it("should display the merchant name", () => {
-    render(<PaymentCard payment={toPaymentCardData(inProgressSummary)} onClick={() => {}} />);
-    expect(screen.getByText("France Merchant")).toBeInTheDocument();
+    const { getByText } = renderWithProviders(
+      <PaymentCard payment={toPaymentCardData(inProgressSummary)} onClick={() => {}} />,
+    );
+    expect(getByText("France Merchant")).toBeInTheDocument();
   });
 
   it("should display 'Prochain paiement' for in progress payments", () => {
-    render(<PaymentCard payment={toPaymentCardData(inProgressSummary)} onClick={() => {}} />);
-    expect(screen.getByText("Prochain paiement")).toBeInTheDocument();
+    const { getByText } = renderWithProviders(
+      <PaymentCard payment={toPaymentCardData(inProgressSummary)} onClick={() => {}} />,
+    );
+    expect(getByText("Prochain paiement")).toBeInTheDocument();
   });
 
   it("should display the late banner and 'Échéance due' for late payments", () => {
-    render(<PaymentCard payment={toPaymentCardData(lateSummary)} onClick={() => {}} />);
-    expect(screen.getByText(/Paiement en retard/)).toBeInTheDocument();
-    expect(screen.getByText("Échéance due")).toBeInTheDocument();
+    const { getByText } = renderWithProviders(
+      <PaymentCard payment={toPaymentCardData(lateSummary)} onClick={() => {}} />,
+    );
+    expect(getByText(/Paiement en retard/)).toBeInTheDocument();
+    expect(getByText("Échéance due")).toBeInTheDocument();
   });
 
   it("should display '✓ Payé' without progress bar for completed payments", () => {
-    render(<PaymentCard payment={toPaymentCardData(completedSummary)} onClick={() => {}} />);
-    expect(screen.getByText("✓ Payé")).toBeInTheDocument();
-    expect(screen.queryByRole("progressbar")).not.toBeInTheDocument();
+    const { getByText, queryByRole } = renderWithProviders(
+      <PaymentCard payment={toPaymentCardData(completedSummary)} onClick={() => {}} />,
+    );
+    expect(getByText("✓ Payé")).toBeInTheDocument();
+    expect(queryByRole("progressbar")).not.toBeInTheDocument();
   });
 
   it("should display a progress bar for active payments", () => {
-    render(<PaymentCard payment={toPaymentCardData(inProgressSummary)} onClick={() => {}} />);
-    expect(screen.getByRole("progressbar")).toBeInTheDocument();
+    const { getByRole } = renderWithProviders(
+      <PaymentCard payment={toPaymentCardData(inProgressSummary)} onClick={() => {}} />,
+    );
+    expect(getByRole("progressbar")).toBeInTheDocument();
   });
 
   it("should call onClick with the correct id", async () => {
     const handleClick = vi.fn();
-    render(<PaymentCard payment={toPaymentCardData(inProgressSummary)} onClick={handleClick} />);
-    await userEvent.click(screen.getByRole("button"));
+    const { getByRole, user } = renderWithProviders(
+      <PaymentCard payment={toPaymentCardData(inProgressSummary)} onClick={handleClick} />,
+    );
+    await user.click(getByRole("button"));
     expect(handleClick).toHaveBeenCalledWith("payment_1");
   });
 
   it("should be activatable with keyboard", async () => {
     const handleClick = vi.fn();
-    render(<PaymentCard payment={toPaymentCardData(inProgressSummary)} onClick={handleClick} />);
-    screen.getByRole("button").focus();
-    await userEvent.keyboard("{Enter}");
+    const { getByRole, user } = renderWithProviders(
+      <PaymentCard payment={toPaymentCardData(inProgressSummary)} onClick={handleClick} />,
+    );
+    getByRole("button").focus();
+    await user.keyboard("{Enter}");
     expect(handleClick).toHaveBeenCalledWith("payment_1");
   });
 });

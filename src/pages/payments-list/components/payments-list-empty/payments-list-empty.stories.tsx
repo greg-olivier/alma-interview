@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { PaymentsListEmpty } from "./payments-list-empty";
 
 const meta: Meta<typeof PaymentsListEmpty> = {
-  title: "Pages/PaymentsList/Empty",
+  title: "Pages/PaymentsList/Components/Empty",
   component: PaymentsListEmpty,
 };
 

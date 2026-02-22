@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { PaymentsListSkeleton } from "./payments-list-skeleton";
 
 const meta: Meta<typeof PaymentsListSkeleton> = {
-  title: "Pages/PaymentsList/Skeleton",
+  title: "Pages/PaymentsList/Components/Skeleton",
   component: PaymentsListSkeleton,
 };
 

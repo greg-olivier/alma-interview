@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { PaymentsListError } from "./payments-list-error";
 
 const meta: Meta<typeof PaymentsListError> = {
-  title: "Pages/PaymentsList/Error",
+  title: "Pages/PaymentsList/Components/Error",
   component: PaymentsListError,
 };
 

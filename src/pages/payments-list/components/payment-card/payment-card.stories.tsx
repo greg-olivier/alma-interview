@@ -60,7 +60,7 @@ const completedSummary: PaymentSummary = {
 };
 
 const meta: Meta<typeof PaymentCard> = {
-  title: "Components/PaymentCard",
+  title: "Pages/PaymentsList/Components/PaymentCard",
   component: PaymentCard,
   decorators: [
     (Story) => (

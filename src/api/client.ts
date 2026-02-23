@@ -8,6 +8,14 @@ export class ApiError extends Error {
   }
 }
 
+export class NetworkError extends Error {
+  constructor(endpoint: string, cause?: unknown) {
+    super(`Network error on /${endpoint}`);
+    this.name = "NetworkError";
+    this.cause = cause;
+  }
+}
+
 function getBaseUrl(): string {
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
@@ -20,13 +28,24 @@ function getBaseUrl(): string {
 
 export function createApiClient(baseUrl: string) {
   return async function apiClient<T>(endpoint: string): Promise<T> {
-    const response = await fetch(`${baseUrl}/${endpoint}`);
+    let response: Response;
+
+    try {
+      response = await fetch(`${baseUrl}/${endpoint}`);
+    } catch (error) {
+      throw new NetworkError(endpoint, error);
+    }
 
     if (!response.ok) {
       throw new ApiError(response.status, `API error: ${response.status} on /${endpoint}`);
     }
 
-    return response.json() as Promise<T>;
+    try {
+      const data = await response.json();
+      return data as T;
+    } catch {
+      throw new ApiError(response.status, `Invalid JSON response on /${endpoint}`);
+    }
   };
 }
 

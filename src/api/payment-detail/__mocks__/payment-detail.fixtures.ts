@@ -1,6 +1,6 @@
 import type { PaymentDetailResponse } from "@/api/types";
 
-const makeInstallmentDetail = (overrides = {}) => ({
+export const makeInstallmentDetail = (overrides = {}) => ({
   id: "i1",
   purchase_amount: 5250,
   due_date: 1751527297,

@@ -1,28 +1,13 @@
 import { describe, it, expect } from "vitest";
-import type { InstallmentDetail } from "@/api/types";
 import { renderWithProviders } from "@/test/test-utils";
 import { InstallmentRow } from "./installment-row";
 import { toInstallmentRowData } from "./installment-row.mapper";
-
-const makeInstallment = (overrides = {}): InstallmentDetail => ({
-  id: "i1",
-  purchase_amount: 5250,
-  due_date: 1751527297,
-  original_due_date: null,
-  date_paid: null,
-  state: "pending",
-  customer_fee: 0,
-  customer_interest: 0,
-  customer_can_postpone_until: null,
-  customer_cannot_postpone_reason: null,
-  used_payment_method: null,
-  ...overrides,
-});
+import { makeInstallmentDetail } from "@/api/payment-detail/__mocks__/payment-detail.fixtures";
 
 describe("toInstallmentRowData", () => {
   it("should use date_paid for paid installments", () => {
     const data = toInstallmentRowData({
-      installment: makeInstallment({ state: "paid", date_paid: 1751527335 }),
+      installment: makeInstallmentDetail({ state: "paid", date_paid: 1751527335 }),
       countryOfService: "FR",
       isLast: false,
     });
@@ -31,7 +16,7 @@ describe("toInstallmentRowData", () => {
 
   it("should use due_date for pending installments", () => {
     const data = toInstallmentRowData({
-      installment: makeInstallment(),
+      installment: makeInstallmentDetail({ state: "pending" }),
       countryOfService: "FR",
       isLast: false,
     });
@@ -40,7 +25,7 @@ describe("toInstallmentRowData", () => {
 
   it("should include fees when present", () => {
     const data = toInstallmentRowData({
-      installment: makeInstallment({ customer_fee: 378 }),
+      installment: makeInstallmentDetail({ customer_fee: 378 }),
       countryOfService: "FR",
       isLast: false,
     });
@@ -51,7 +36,7 @@ describe("toInstallmentRowData", () => {
 
   it("should return null fees when zero", () => {
     const data = toInstallmentRowData({
-      installment: makeInstallment({ customer_fee: 0 }),
+      installment: makeInstallmentDetail({ customer_fee: 0 }),
       countryOfService: "FR",
       isLast: false,
     });
@@ -62,7 +47,7 @@ describe("toInstallmentRowData", () => {
 describe("InstallmentRow", () => {
   it("should display amount and date label", () => {
     const data = toInstallmentRowData({
-      installment: makeInstallment(),
+      installment: makeInstallmentDetail({ state: "pending" }),
       countryOfService: "FR",
       isLast: false,
     });
@@ -73,7 +58,7 @@ describe("InstallmentRow", () => {
 
   it("should display the correct badge for paid state", () => {
     const data = toInstallmentRowData({
-      installment: makeInstallment({ state: "paid", date_paid: 1751527335 }),
+      installment: makeInstallmentDetail({ state: "paid", date_paid: 1751527335 }),
       countryOfService: "FR",
       isLast: false,
     });
@@ -83,7 +68,7 @@ describe("InstallmentRow", () => {
 
   it("should display the correct badge for late state", () => {
     const data = toInstallmentRowData({
-      installment: makeInstallment({ state: "late" }),
+      installment: makeInstallmentDetail({ state: "late" }),
       countryOfService: "FR",
       isLast: false,
     });
@@ -93,7 +78,7 @@ describe("InstallmentRow", () => {
 
   it("should display fees when present", () => {
     const data = toInstallmentRowData({
-      installment: makeInstallment({ customer_fee: 378 }),
+      installment: makeInstallmentDetail({ customer_fee: 378 }),
       countryOfService: "FR",
       isLast: false,
     });
@@ -103,7 +88,7 @@ describe("InstallmentRow", () => {
 
   it("should not display fees when null", () => {
     const data = toInstallmentRowData({
-      installment: makeInstallment({ customer_fee: 0 }),
+      installment: makeInstallmentDetail({ customer_fee: 0 }),
       countryOfService: "FR",
       isLast: false,
     });

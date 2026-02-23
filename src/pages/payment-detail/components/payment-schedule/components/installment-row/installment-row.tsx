@@ -41,10 +41,14 @@ export function InstallmentRow({ installment }: InstallmentRowProps) {
 
       <div className="flex flex-1 items-start justify-between pb-6">
         <div>
-          <div className="text-sm font-semibold text-foreground">{installment.amount}</div>
+          <div className="text-sm font-semibold text-foreground tabular-nums">
+            {installment.amount}
+          </div>
           <div className="mt-0.5 text-xs text-muted-foreground">{installment.dateLabel}</div>
           {installment.fees && (
-            <div className="mt-0.5 text-xs text-muted-foreground">{installment.fees}</div>
+            <div className="mt-0.5 text-xs text-muted-foreground tabular-nums">
+              {installment.fees}
+            </div>
           )}
         </div>
 

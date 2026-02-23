@@ -35,7 +35,7 @@ export function PaymentCard({ payment, onClick }: PaymentCardProps) {
             <div className="truncate text-sm font-semibold text-foreground">
               {payment.merchantName}
             </div>
-            <div className="mt-0.5 text-xs text-muted-foreground">
+            <div className="mt-0.5 text-xs text-muted-foreground tabular-nums">
               {payment.installmentCount}x · {payment.purchaseAmount}
             </div>
           </div>
@@ -50,7 +50,7 @@ export function PaymentCard({ payment, onClick }: PaymentCardProps) {
                   : t("payments.list.card.nextPayment")}
               </div>
               <div
-                className={`text-base font-bold leading-tight ${isLate ? "text-destructive" : "text-foreground"}`}
+                className={`text-base font-bold leading-tight tabular-nums ${isLate ? "text-destructive" : "text-foreground"}`}
               >
                 {payment.nextInstallmentAmount}
               </div>

@@ -39,7 +39,7 @@ export function PaymentDetail() {
         <MerchantLogo url={data.logo_url} name={data.merchant_display_name} size="lg" />
         <div>
           <div className="text-lg font-bold text-foreground">{data.merchant_display_name}</div>
-          <div className="text-sm text-muted-foreground">
+          <div className="text-sm text-muted-foreground tabular-nums">
             {installmentLabel} ·{" "}
             {formatCentsToCurrency({
               cents: data.purchase_amount,
@@ -55,7 +55,9 @@ export function PaymentDetail() {
           <div className="text-xs font-medium text-muted-foreground">
             {isCompleted ? t("payments.details.totalPaid") : t("payments.details.remaining")}
           </div>
-          <div className={`text-lg font-bold ${isLate ? "text-destructive" : "text-foreground"}`}>
+          <div
+            className={`text-lg font-bold tabular-nums ${isLate ? "text-destructive" : "text-foreground"}`}
+          >
             {formatCentsToCurrency({
               cents: data.amount_left_to_pay,
               countryOfService: data.country_of_service,
@@ -81,7 +83,7 @@ export function PaymentDetail() {
         {hasFees && (
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">{t("payments.details.totalFees")}</span>
-            <span className="font-medium">
+            <span className="font-medium tabular-nums">
               {formatCentsToCurrency({
                 cents: data.fees.customer.total,
                 countryOfService: data.country_of_service,

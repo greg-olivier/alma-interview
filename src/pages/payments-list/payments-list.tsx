@@ -44,7 +44,7 @@ export function PaymentsList() {
               <div className="text-xs font-medium opacity-80">
                 {t("payments.list.totalRemaining")}
               </div>
-              <div className="mt-1 text-3xl font-extrabold tracking-tight">
+              <div className="mt-1 text-3xl font-extrabold tracking-tight tabular-nums">
                 {formatCentsToCurrency({ cents: data.total_amount_left_to_pay, compact: true })}
               </div>
             </div>

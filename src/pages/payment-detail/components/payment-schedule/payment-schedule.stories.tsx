@@ -7,7 +7,7 @@ import {
 } from "@/api/payment-detail/__mocks__/payment-detail.fixtures";
 
 const meta: Meta<typeof PaymentSchedule> = {
-  title: "Pages/PaymentDetail/PaymentSchedule",
+  title: "Pages/PaymentDetail/Components/PaymentSchedule",
   component: PaymentSchedule,
   decorators: [
     (Story) => (

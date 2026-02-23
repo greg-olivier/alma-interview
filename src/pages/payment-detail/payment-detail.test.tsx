@@ -73,6 +73,28 @@ describe("PaymentDetail", () => {
     });
   });
 
+  it("should navigate back to the list when clicking the back button", async () => {
+    const { getByText, user } = renderWithProviders(<PaymentDetail />, {
+      routerOptions: {
+        initialEntries: [`/payments/payment_1`],
+        routes: [
+          { path: "/", element: <div>payments list</div> },
+          { path: "/payments/:id", element: <PaymentDetail /> },
+        ],
+      },
+    });
+
+    await waitFor(() => {
+      expect(getByText("France Merchant")).toBeInTheDocument();
+    });
+
+    await user.click(getByText(/Retour/));
+
+    await waitFor(() => {
+      expect(getByText("payments list")).toBeInTheDocument();
+    });
+  });
+
   it("should display skeletons while loading", () => {
     server.use(
       http.get("*/payment/:id", async () => {

@@ -32,7 +32,7 @@ npm run dev             # → http://localhost:5173
 | `npm run test:run` | Tests unitaires et intégration |
 | `npm run storybook` | Documentation visuelle des composants |
 | `npm run lint` | Vérification ESLint + Prettier |
-| `npx tsc --noEmit` | Vérification des types |
+| `npm run tsc` | Vérification des types |
 
 ## Stack technique
 

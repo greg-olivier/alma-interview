@@ -19,7 +19,7 @@ export function PaymentCard({ payment, onClick }: PaymentCardProps) {
   return (
     <button
       onClick={handleOnClick}
-      className={`w-full cursor-pointer overflow-hidden rounded-xl border text-left transition-all hover:-translate-y-px hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${isLate ? "border-destructive/30" : ""}`}
+      className={`w-full cursor-pointer overflow-hidden rounded-xl border text-left  transition-[transform,box-shadow] duration-200 motion-safe:hover:-translate-y-px hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${isLate ? "border-destructive/30" : ""}`}
     >
       {isLate && (
         <div className="flex items-center gap-1.5 bg-red-50 px-4 py-1.5 text-xs font-semibold text-red-600">

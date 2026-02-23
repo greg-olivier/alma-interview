@@ -17,7 +17,7 @@ export function PaymentProgressBar({ paidCount, totalCount }: PaymentProgressBar
     <div className="flex w-full items-center gap-2">
       <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
         <div
-          className={`h-full rounded-full transition-all duration-500 ${
+          className={`h-full rounded-full transition-[width] duration-500 ${
             isComplete ? "bg-green-600" : "bg-blue-600"
           }`}
           style={{ width: `${percentage}%` }}

@@ -41,4 +41,23 @@ describe("ErrorPage", () => {
     render(<RouterProvider router={router} />);
     expect(logger.error).not.toHaveBeenCalled();
   });
+
+  it("should display generic error content and log the error", async () => {
+    function BrokenComponent(): never {
+      throw new Error("Something broke");
+    }
+
+    const router = createMemoryRouter([
+      {
+        path: "/",
+        element: <BrokenComponent />,
+        errorElement: <ErrorPage />,
+      },
+    ]);
+
+    render(<RouterProvider router={router} />);
+    expect(await screen.findByText("Une erreur est survenue")).toBeInTheDocument();
+    expect(screen.getByText("Veuillez réessayer ultérieurement.")).toBeInTheDocument();
+    expect(logger.error).toHaveBeenCalled();
+  });
 });

@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Tabs } from "@/components/ui/tabs";
 import { paymentsQueries } from "@/api/payments";
@@ -14,15 +15,18 @@ export function PaymentsList() {
   const { data, isLoading, isError, refetch } = useQuery(paymentsQueries.getPaymentsList());
   const navigate = useNavigate();
 
+  const handlePaymentClick = useCallback(
+    (paymentId: string): void => {
+      navigate(`/payments/${paymentId}`);
+    },
+    [navigate],
+  );
+
   if (isLoading) return <PaymentsListSkeleton />;
   if (isError || !data) return <PaymentsListError onRetry={refetch} />;
 
   const activePayments = filterActivePayments(data.payments);
   const completedPayments = filterCompletedPayments(data.payments);
-
-  const handlePaymentClick = (paymentId: string): void => {
-    navigate(`/payments/${paymentId}`);
-  };
 
   return (
     <div className="mx-auto max-w-[640px] px-6 py-10">

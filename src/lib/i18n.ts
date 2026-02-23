@@ -11,6 +11,7 @@ const translations = {
   "payments.details.installment.paidOn": "Payé le {{date}}",
   "payments.details.installment.dueOn": "Échéance le {{date}}",
   "payments.details.installment.fees": "dont {{amount}} de frais",
+  "payments.details.schedule.title": "Échéancier",
   "payments.list.card.lateBanner": "Paiement en retard",
   "payments.list.card.nextPayment": "Prochain paiement",
   "payments.list.card.dueDateLabel": "Échéance due",

@@ -19,8 +19,7 @@ export function PaymentCard({ payment, onClick }: PaymentCardProps) {
   return (
     <button
       onClick={handleOnClick}
-      className="w-full cursor-pointer overflow-hidden rounded-xl border text-left transition-all hover:-translate-y-px hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-      style={{ borderColor: isLate ? "#FECACA" : undefined }}
+      className={`w-full cursor-pointer overflow-hidden rounded-xl border text-left transition-all hover:-translate-y-px hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${isLate ? "border-destructive/30" : ""}`}
     >
       {isLate && (
         <div className="flex items-center gap-1.5 bg-red-50 px-4 py-1.5 text-xs font-semibold text-red-600">
@@ -44,22 +43,19 @@ export function PaymentCard({ payment, onClick }: PaymentCardProps) {
           {!isCompleted && payment.nextInstallmentAmount && (
             <div className="shrink-0 text-right">
               <div
-                className="text-[11px] font-semibold uppercase tracking-wide"
-                style={{ color: isLate ? "#EF4444" : "#B0B3BA" }}
+                className={`text-[11px] font-semibold uppercase tracking-wide ${isLate ? "text-destructive" : "text-muted-foreground"}`}
               >
                 {isLate
                   ? t("payments.list.card.dueDateLabel")
                   : t("payments.list.card.nextPayment")}
               </div>
               <div
-                className="text-base font-bold leading-tight"
-                style={{ color: isLate ? "#DC2626" : undefined }}
+                className={`text-base font-bold leading-tight ${isLate ? "text-destructive" : "text-foreground"}`}
               >
                 {payment.nextInstallmentAmount}
               </div>
               <div
-                className="mt-0.5 text-xs font-medium"
-                style={{ color: isLate ? "#EF4444" : "#9CA3AF" }}
+                className={`mt-0.5 text-xs font-medium ${isLate ? "text-destructive" : "text-muted-foreground"}`}
               >
                 {`${t("payments.list.card.datePrefix")} ${payment.nextInstallmentDate}`}
               </div>

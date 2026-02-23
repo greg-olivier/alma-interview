@@ -3,19 +3,19 @@ import { t } from "@/lib/i18n";
 
 const STATE_STYLES = {
   paid: {
-    dot: "bg-green-500",
-    line: "bg-green-200",
-    badge: "bg-green-50 text-green-700",
+    dot: "bg-green-600",
+    line: "bg-green-600/20",
+    badge: "bg-green-600/10 text-green-600",
   },
   pending: {
-    dot: "bg-gray-300",
-    line: "bg-gray-200",
-    badge: "bg-gray-50 text-gray-500",
+    dot: "bg-muted-foreground/40",
+    line: "bg-muted",
+    badge: "bg-muted text-muted-foreground",
   },
   late: {
-    dot: "bg-red-500",
-    line: "bg-red-200",
-    badge: "bg-red-50 text-red-600",
+    dot: "bg-destructive",
+    line: "bg-destructive/20",
+    badge: "bg-destructive/10 text-destructive",
   },
 } as const;
 

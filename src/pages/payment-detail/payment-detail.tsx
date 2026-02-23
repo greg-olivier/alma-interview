@@ -55,15 +55,12 @@ export function PaymentDetail() {
         </div>
       </div>
 
-      <div
-        className="mb-6 rounded-xl border p-4"
-        style={{ borderColor: isLate ? "#FECACA" : undefined }}
-      >
+      <div className={`mb-6 rounded-xl border p-4 ${isLate ? "border-destructive/30" : ""}`}>
         <div className="flex items-center justify-between">
           <div className="text-xs font-medium text-muted-foreground">
             {isCompleted ? t("payments.details.totalPaid") : t("payments.details.remaining")}
           </div>
-          <div className="text-lg font-bold" style={{ color: isLate ? "#DC2626" : undefined }}>
+          <div className={`text-lg font-bold ${isLate ? "text-destructive" : "text-foreground"}`}>
             {formatCentsToCurrency({
               cents: data.amount_left_to_pay,
               countryOfService: data.country_of_service,

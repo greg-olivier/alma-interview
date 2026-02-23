@@ -16,7 +16,13 @@ export function MerchantLogo({ url, name, size = "md" }: MerchantLogoProps) {
         className="shrink-0 overflow-hidden rounded-lg"
         style={{ width: pixels, height: pixels }}
       >
-        <img src={url} alt={name} className="h-full w-full object-cover" />
+        <img
+          src={url}
+          alt={name}
+          width={pixels}
+          height={pixels}
+          className="h-full w-full object-cover"
+        />
       </div>
     );
   }

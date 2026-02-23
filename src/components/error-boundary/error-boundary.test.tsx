@@ -36,7 +36,7 @@ describe("ErrorBoundary", () => {
   });
 
   it("should recover when clicking the reset button", async () => {
-    const { rerender, user, getByText } = renderWithProviders(
+    const { getByText } = renderWithProviders(
       <ErrorBoundary>
         <ThrowingComponent />
       </ErrorBoundary>,
@@ -44,14 +44,8 @@ describe("ErrorBoundary", () => {
 
     expect(getByText("Une erreur est survenue")).toBeInTheDocument();
 
-    rerender(
-      <ErrorBoundary>
-        <div>Recovered</div>
-      </ErrorBoundary>,
-    );
-
-    await user.click(getByText("Retour à mes paiements"));
-
-    expect(getByText("Recovered")).toBeInTheDocument();
+    const link = getByText("Retour à mes paiements");
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute("href", "/");
   });
 });

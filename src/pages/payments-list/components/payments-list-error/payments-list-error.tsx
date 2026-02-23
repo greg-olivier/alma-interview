@@ -13,7 +13,7 @@ export function PaymentsListError({ onRetry }: PaymentsListErrorProps) {
       <p className="text-sm text-muted-foreground">{t("payments.list.error.message")}</p>
       <button
         onClick={handleRetry}
-        className="mt-4 text-sm font-semibold text-primary hover:underline"
+        className="mt-4 text-sm font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         {t("payments.list.error.retry")}
       </button>

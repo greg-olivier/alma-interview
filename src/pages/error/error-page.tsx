@@ -1,14 +1,9 @@
-import { useRouteError, isRouteErrorResponse, useNavigate } from "react-router";
+import { useRouteError, isRouteErrorResponse, Link } from "react-router";
 import { t } from "@/lib/i18n";
 
 export function ErrorPage() {
   const error = useRouteError();
-  const navigate = useNavigate();
   const isNotFound = isRouteErrorResponse(error) && error.status === 404;
-
-  function handleGoHome() {
-    navigate("/");
-  }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-6 text-center">
@@ -19,12 +14,12 @@ export function ErrorPage() {
       <p className="mt-2 text-sm text-muted-foreground">
         {isNotFound ? t("error.notFound.description") : t("error.generic.description")}
       </p>
-      <button
-        onClick={handleGoHome}
-        className="mt-6 text-sm font-semibold text-primary hover:underline"
+      <Link
+        to="/"
+        className="mt-6 text-sm font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         {t("error.backToHome")}
-      </button>
+      </Link>
     </div>
   );
 }

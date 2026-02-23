@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router";
+import { useParams, Link } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { paymentDetailQueries } from "@/api/payment-detail";
 import { MerchantLogo } from "@/components/merchant-logo";
@@ -11,14 +11,9 @@ import { t } from "@/lib/i18n";
 
 export function PaymentDetail() {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
   const { data, isLoading, isError, refetch } = useQuery(
     paymentDetailQueries.getPaymentDetail(id!),
   );
-
-  function handleBack() {
-    navigate("/");
-  }
 
   if (isLoading) return <PaymentDetailSkeleton />;
   if (isError || !data) return <PaymentDetailError onRetry={refetch} />;
@@ -33,12 +28,12 @@ export function PaymentDetail() {
 
   return (
     <div className="mx-auto max-w-[640px] px-6 py-10">
-      <button
-        onClick={handleBack}
-        className="mb-6 text-sm font-medium text-muted-foreground hover:text-foreground"
+      <Link
+        to="/"
+        className="mb-6 inline-block text-sm font-medium text-muted-foreground hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         ← {t("payments.details.back")}
-      </button>
+      </Link>
 
       <div className="mb-6 flex items-center gap-3">
         <MerchantLogo url={data.logo_url} name={data.merchant_display_name} size="lg" />

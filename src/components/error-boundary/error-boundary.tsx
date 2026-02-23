@@ -25,10 +25,6 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     console.error("[ErrorBoundary]", error, errorInfo);
   }
 
-  private handleReset = () => {
-    this.setState({ hasError: false });
-  };
-
   render() {
     if (this.state.hasError) {
       return (
@@ -36,12 +32,12 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
           <div className="mb-4 text-5xl">⚠️</div>
           <h1 className="text-xl font-bold text-foreground">{t("error.generic.title")}</h1>
           <p className="mt-2 text-sm text-muted-foreground">{t("error.generic.description")}</p>
-          <button
-            onClick={this.handleReset}
-            className="mt-6 text-sm font-semibold text-primary hover:underline"
+          <a
+            href="/"
+            className="mt-6 text-sm font-semibold text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             {t("error.backToHome")}
-          </button>
+          </a>
         </div>
       );
     }

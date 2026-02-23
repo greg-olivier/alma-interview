@@ -36,7 +36,7 @@ export function InstallmentRow({ installment }: InstallmentRowProps) {
     <div className="flex gap-3">
       <div className="flex flex-col items-center">
         <div className={`h-3 w-3 shrink-0 rounded-full ${styles.dot}`} />
-        {!installment.isLast && <div className={`w-0.5 flex-1 ${styles.line}`} />}
+        {!installment.isLast ? <div className={`w-0.5 flex-1 ${styles.line}`} /> : null}
       </div>
 
       <div className="flex flex-1 items-start justify-between pb-6">
@@ -45,11 +45,11 @@ export function InstallmentRow({ installment }: InstallmentRowProps) {
             {installment.amount}
           </div>
           <div className="mt-0.5 text-xs text-muted-foreground">{installment.dateLabel}</div>
-          {installment.fees && (
+          {installment.fees ? (
             <div className="mt-0.5 text-xs text-muted-foreground tabular-nums">
               {installment.fees}
             </div>
-          )}
+          ) : null}
         </div>
 
         <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${styles.badge}`}>

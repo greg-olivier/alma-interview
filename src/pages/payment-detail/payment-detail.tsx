@@ -65,11 +65,11 @@ export function PaymentDetail() {
             })}
           </div>
         </div>
-        {!isCompleted && (
+        {!isCompleted ? (
           <div className="mt-3">
             <PaymentProgressBar paidCount={paidCount} totalCount={data.payment_plan.length} />
           </div>
-        )}
+        ) : null}
       </div>
 
       <div className="mb-6">
@@ -80,7 +80,7 @@ export function PaymentDetail() {
       </div>
 
       <div className="space-y-3 rounded-xl border p-4">
-        {hasFees && (
+        {hasFees ? (
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">{t("payments.details.totalFees")}</span>
             <span className="font-medium tabular-nums">
@@ -90,7 +90,7 @@ export function PaymentDetail() {
               })}
             </span>
           </div>
-        )}
+        ) : null}
 
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted-foreground">{t("payments.details.paymentMethod")}</span>
@@ -110,12 +110,12 @@ export function PaymentDetail() {
           </div>
         </div>
 
-        {data.orders.length > 0 && (
+        {data.orders.length > 0 ? (
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">{t("payments.details.orderReference")}</span>
             <span className="font-medium">{data.orders[0]!.merchant_reference}</span>
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   );

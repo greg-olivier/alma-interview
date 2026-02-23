@@ -3,6 +3,7 @@ import { http, HttpResponse } from "msw";
 import { server } from "@/test/mocks/server";
 import { renderWithProviders, waitFor } from "@/test/test-utils";
 import { PaymentsList } from "./payments-list";
+import { inProgressSummary, completedSummary } from "@/api/payments/__mocks__/payments.fixtures";
 
 describe("PaymentsList", () => {
   it("should display skeletons while loading", () => {
@@ -78,6 +79,44 @@ describe("PaymentsList", () => {
 
     await waitFor(() => {
       expect(getByText("payment details")).toBeInTheDocument();
+    });
+  });
+
+  it("should display empty state for completed tab when no completed payments", async () => {
+    server.use(
+      http.get("*/payments", () => {
+        return HttpResponse.json({
+          total_amount_left_to_pay: 10000,
+          payments: [inProgressSummary],
+        });
+      }),
+    );
+
+    const { getByText, user } = renderWithProviders(<PaymentsList />);
+    await waitFor(() => {
+      expect(getByText("Terminés (0)")).toBeInTheDocument();
+    });
+
+    await user.click(getByText("Terminés (0)"));
+
+    await waitFor(() => {
+      expect(getByText("Aucun paiement terminé")).toBeInTheDocument();
+    });
+  });
+
+  it("should display empty state for active tab when no active payments", async () => {
+    server.use(
+      http.get("*/payments", () => {
+        return HttpResponse.json({
+          total_amount_left_to_pay: 0,
+          payments: [completedSummary],
+        });
+      }),
+    );
+
+    const { getByText } = renderWithProviders(<PaymentsList />);
+    await waitFor(() => {
+      expect(getByText("Aucun paiement en cours")).toBeInTheDocument();
     });
   });
 

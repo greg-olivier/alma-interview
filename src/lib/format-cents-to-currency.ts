@@ -4,6 +4,35 @@ const CENTIMES_PER_UNIT = 100;
 const FRACTION_DIGITS_FULL = 2;
 const FRACTION_DIGITS_NONE = 0;
 
+const formatterCache = new Map<string, Intl.NumberFormat>();
+
+interface GetFormatterParams {
+  locale: string;
+  currency: string;
+  minimumFractionDigits: number;
+}
+
+function getFormatter({
+  locale,
+  currency,
+  minimumFractionDigits,
+}: GetFormatterParams): Intl.NumberFormat {
+  const key = `${locale}-${currency}-${minimumFractionDigits}`;
+  const cached = formatterCache.get(key);
+
+  if (cached) return cached;
+
+  const formatter = new Intl.NumberFormat(locale, {
+    style: "currency",
+    currency,
+    minimumFractionDigits,
+    maximumFractionDigits: FRACTION_DIGITS_FULL,
+  });
+
+  formatterCache.set(key, formatter);
+  return formatter;
+}
+
 interface FormatCentsToCurrencyParams {
   cents: number;
   countryOfService?: string;
@@ -22,10 +51,5 @@ export function formatCentsToCurrency({
   const minimumFractionDigits =
     compact && !hasCentimes ? FRACTION_DIGITS_NONE : FRACTION_DIGITS_FULL;
 
-  return new Intl.NumberFormat(locale, {
-    style: "currency",
-    currency,
-    minimumFractionDigits,
-    maximumFractionDigits: FRACTION_DIGITS_FULL,
-  }).format(value);
+  return getFormatter({ locale, currency, minimumFractionDigits }).format(value);
 }

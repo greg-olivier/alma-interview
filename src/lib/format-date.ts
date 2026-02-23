@@ -9,6 +9,29 @@ const DATE_FORMAT_OPTIONS: Record<DateFormat, Intl.DateTimeFormatOptions> = {
   short: { day: "numeric", month: "short" },
 };
 
+const formatterCache = new Map<string, Intl.DateTimeFormat>();
+
+interface GetFormatterParams {
+  locale: string;
+  timezone: string;
+  format: DateFormat;
+}
+
+function getFormatter({ locale, timezone, format }: GetFormatterParams): Intl.DateTimeFormat {
+  const key = `${locale}-${timezone}-${format}`;
+  const cached = formatterCache.get(key);
+
+  if (cached) return cached;
+
+  const formatter = new Intl.DateTimeFormat(locale, {
+    ...DATE_FORMAT_OPTIONS[format],
+    timeZone: timezone,
+  });
+
+  formatterCache.set(key, formatter);
+  return formatter;
+}
+
 interface FormatDateParams {
   timestamp: number;
   format?: DateFormat;
@@ -22,8 +45,7 @@ export function formatDate({
 }: FormatDateParams): string {
   const { locale, timezone } = getCountryConfig(countryOfService);
 
-  return new Intl.DateTimeFormat(locale, {
-    ...DATE_FORMAT_OPTIONS[format],
-    timeZone: timezone,
-  }).format(new Date(timestamp * MILLISECONDS_PER_SECOND));
+  return getFormatter({ locale, timezone, format }).format(
+    new Date(timestamp * MILLISECONDS_PER_SECOND),
+  );
 }

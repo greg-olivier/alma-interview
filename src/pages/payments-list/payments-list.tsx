@@ -17,9 +17,12 @@ export function PaymentsList() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") ?? "active";
 
-  function handleTabChange(value: string) {
-    setSearchParams({ tab: value });
-  }
+  const handleTabChange = useCallback(
+    (value: string): void => {
+      setSearchParams({ tab: value });
+    },
+    [setSearchParams],
+  );
 
   const handlePaymentClick = useCallback(
     (paymentId: string): void => {

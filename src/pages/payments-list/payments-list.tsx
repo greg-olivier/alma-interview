@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Tabs } from "@/components/ui/tabs";
 import { paymentsQueries } from "@/api/payments";
@@ -9,11 +9,17 @@ import { t } from "@/lib/i18n";
 import { PaymentsListSkeleton } from "./components/payments-list-skeleton";
 import { PaymentsListError } from "./components/payments-list-error";
 import { PaymentsListEmpty } from "./components/payments-list-empty";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 
 export function PaymentsList() {
   const { data, isLoading, isError, refetch } = useQuery(paymentsQueries.getPaymentsList());
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get("tab") ?? "active";
+
+  function handleTabChange(value: string) {
+    setSearchParams({ tab: value });
+  }
 
   const handlePaymentClick = useCallback(
     (paymentId: string): void => {
@@ -22,17 +28,21 @@ export function PaymentsList() {
     [navigate],
   );
 
+  const activePayments = useMemo(() => (data ? filterActivePayments(data.payments) : []), [data]);
+
+  const completedPayments = useMemo(
+    () => (data ? filterCompletedPayments(data.payments) : []),
+    [data],
+  );
+
   if (isLoading) return <PaymentsListSkeleton />;
   if (isError || !data) return <PaymentsListError onRetry={refetch} />;
-
-  const activePayments = filterActivePayments(data.payments);
-  const completedPayments = filterCompletedPayments(data.payments);
 
   return (
     <div className="mx-auto max-w-[640px] px-6 py-10">
       <h1 className="mb-8 text-2xl font-extrabold tracking-tight">{t("payments.list.title")}</h1>
 
-      <Tabs defaultValue="active">
+      <Tabs value={activeTab} onValueChange={handleTabChange}>
         <Tabs.List className="mb-6">
           <Tabs.Trigger value="active">
             {t("payments.list.tabs.active")} ({activePayments.length})

@@ -1,9 +1,14 @@
 import { useRouteError, isRouteErrorResponse, Link } from "react-router";
 import { t } from "@/lib/i18n";
+import { logger } from "@/lib/logger";
 
 export function ErrorPage() {
   const error = useRouteError();
   const isNotFound = isRouteErrorResponse(error) && error.status === 404;
+
+  if (!isNotFound) {
+    logger.error(error, { source: "router" });
+  }
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center px-6 text-center">

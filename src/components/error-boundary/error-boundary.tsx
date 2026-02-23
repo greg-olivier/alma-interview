@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Component } from "react";
 import { t } from "@/lib/i18n";
+import { logger } from "@/lib/logger";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -21,8 +22,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    // TODO: log error to an external service
-    console.error("[ErrorBoundary]", error, errorInfo);
+    logger.error(error, { componentStack: errorInfo.componentStack ?? undefined });
   }
 
   render() {

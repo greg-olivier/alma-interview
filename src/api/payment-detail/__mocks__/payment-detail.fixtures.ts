@@ -169,8 +169,36 @@ export const mockPaymentDetail3: PaymentDetailResponse = {
   ],
 };
 
+export const mockPaymentDetailNoFees: PaymentDetailResponse = {
+  ...baseDetail,
+  id: "payment_no_fees",
+  created: 1751527297,
+  state: "in_progress",
+  merchant_display_name: "No Fees Merchant",
+  purchase_amount: 10000,
+  amount_left_to_pay: 5000,
+  logo_url: null,
+  fees: { customer: { total: 0, total_excluding_tax: 0, tax: 0 } },
+  orders: [],
+  payment_plan: [
+    makeInstallmentDetail({
+      id: "i13",
+      purchase_amount: 5000,
+      state: "paid",
+      date_paid: 1751527335,
+      used_payment_method: "card",
+    }),
+    makeInstallmentDetail({
+      id: "i14",
+      purchase_amount: 5000,
+      due_date: 1754205697,
+    }),
+  ],
+};
+
 export const mockPaymentDetails: Record<string, PaymentDetailResponse> = {
   payment_1: mockPaymentDetail1,
   payment_2: mockPaymentDetail2,
   payment_3: mockPaymentDetail3,
+  payment_no_fees: mockPaymentDetailNoFees,
 };

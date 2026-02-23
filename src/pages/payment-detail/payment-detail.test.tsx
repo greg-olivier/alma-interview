@@ -105,4 +105,33 @@ describe("PaymentDetail", () => {
     const skeletons = container.querySelectorAll("[data-slot='skeleton']");
     expect(skeletons.length).toBeGreaterThan(0);
   });
+
+  it("should hide progress bar for completed payments", async () => {
+    const { queryByRole } = renderPaymentDetail("payment_3");
+    await waitFor(() => {
+      expect(queryByRole("progressbar")).not.toBeInTheDocument();
+    });
+  });
+
+  it("should display late payment with remaining amount", async () => {
+    const { getByText } = renderPaymentDetail("payment_2");
+    await waitFor(() => {
+      expect(getByText("Reste à payer")).toBeInTheDocument();
+    });
+  });
+
+  it("should hide order reference when no orders exist", async () => {
+    const { queryByText } = renderPaymentDetail("payment_2");
+    await waitFor(() => {
+      expect(queryByText("Référence")).not.toBeInTheDocument();
+    });
+  });
+
+  it("should display installment count without fees label when no fees", async () => {
+    const { getByText, queryByText } = renderPaymentDetail("payment_no_fees");
+    await waitFor(() => {
+      expect(getByText(/2x sans frais/)).toBeInTheDocument();
+      expect(queryByText("Frais")).not.toBeInTheDocument();
+    });
+  });
 });

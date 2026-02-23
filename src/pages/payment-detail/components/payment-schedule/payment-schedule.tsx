@@ -1,6 +1,5 @@
 import type { InstallmentDetail } from "@/api/types";
-import { InstallmentRow } from "../installment-row";
-import { toInstallmentRowData } from "../installment-row/installment-row.mapper";
+import { InstallmentRow, toInstallmentRowData } from "./components/installment-row";
 import { t } from "@/lib/i18n";
 
 interface PaymentScheduleProps {

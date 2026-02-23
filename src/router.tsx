@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
-import { PaymentsList } from "@/pages/payments-list";
 import { ErrorPage } from "./pages/error";
+import { PaymentsList } from "@/pages/payments-list";
+import { PaymentDetail } from "./pages/payment-detail";
 
 export const router = createBrowserRouter([
   {
@@ -9,6 +10,10 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <PaymentsList />,
+      },
+      {
+        path: "/payments/:id",
+        element: <PaymentDetail />,
       },
     ],
   },

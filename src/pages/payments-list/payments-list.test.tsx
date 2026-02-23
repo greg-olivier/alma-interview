@@ -59,6 +59,28 @@ describe("PaymentsList", () => {
     });
   });
 
+  it("should navigate to payment detail when clicking a payment card", async () => {
+    const { getByText, getAllByText, user } = renderWithProviders(<PaymentsList />, {
+      routerOptions: {
+        initialEntries: ["/"],
+        routes: [
+          { path: "/", element: <PaymentsList /> },
+          { path: "/payments/:id", element: <div>payment details</div> },
+        ],
+      },
+    });
+
+    await waitFor(() => {
+      expect(getByText("En cours (2)")).toBeInTheDocument();
+    });
+
+    await user.click(getAllByText("France Merchant")[0]!);
+
+    await waitFor(() => {
+      expect(getByText("payment details")).toBeInTheDocument();
+    });
+  });
+
   it("should display error state with retry button when API fails", async () => {
     server.use(
       http.get("*/payments", () => {

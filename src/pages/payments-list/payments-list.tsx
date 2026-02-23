@@ -8,9 +8,11 @@ import { t } from "@/lib/i18n";
 import { PaymentsListSkeleton } from "./components/payments-list-skeleton";
 import { PaymentsListError } from "./components/payments-list-error";
 import { PaymentsListEmpty } from "./components/payments-list-empty";
+import { useNavigate } from "react-router";
 
 export function PaymentsList() {
   const { data, isLoading, isError, refetch } = useQuery(paymentsQueries.getPaymentsList());
+  const navigate = useNavigate();
 
   if (isLoading) return <PaymentsListSkeleton />;
   if (isError || !data) return <PaymentsListError onRetry={refetch} />;
@@ -18,8 +20,8 @@ export function PaymentsList() {
   const activePayments = filterActivePayments(data.payments);
   const completedPayments = filterCompletedPayments(data.payments);
 
-  const handlePaymentClick = () => {
-    // TODO: Implement payment details page and navigation
+  const handlePaymentClick = (paymentId: string): void => {
+    navigate(`/payments/${paymentId}`);
   };
 
   return (

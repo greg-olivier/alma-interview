@@ -1,29 +1,28 @@
 import { describe, it, expect } from "vitest";
-import { render, screen } from "@testing-library/react";
-import { PaymentSchedule } from "./payment-schedule";
+import { renderWithProviders } from "@/test/test-utils";
 import { mockPaymentDetail1 } from "@/api/payment-detail/__mocks__/payment-detail.fixtures";
+import { PaymentSchedule } from "./payment-schedule";
 
 describe("PaymentSchedule", () => {
   it("should display the title", () => {
-    render(
+    const { getByText } = renderWithProviders(
       <PaymentSchedule installments={mockPaymentDetail1.payment_plan} countryOfService="FR" />,
     );
-    expect(screen.getByText("Échéancier")).toBeInTheDocument();
+    expect(getByText("Échéancier")).toBeInTheDocument();
   });
 
   it("should render all installments", () => {
-    render(
+    const { getAllByText } = renderWithProviders(
       <PaymentSchedule installments={mockPaymentDetail1.payment_plan} countryOfService="FR" />,
     );
-    screen.debug();
-    expect(screen.getAllByText(/^(Payé|À venir|En retard)$/)).toHaveLength(4);
+    expect(getAllByText(/^(Payé|À venir|En retard)$/)).toHaveLength(4);
   });
 
   it("should display paid and pending badges", () => {
-    render(
+    const { getAllByText } = renderWithProviders(
       <PaymentSchedule installments={mockPaymentDetail1.payment_plan} countryOfService="FR" />,
     );
-    expect(screen.getAllByText("Payé")).toHaveLength(1);
-    expect(screen.getAllByText("À venir")).toHaveLength(3);
+    expect(getAllByText("Payé")).toHaveLength(1);
+    expect(getAllByText("À venir")).toHaveLength(3);
   });
 });
